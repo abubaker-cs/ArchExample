@@ -38,22 +38,22 @@ public class NoteRepository {
      */
 
     // 01 Insert
-    public void insert(Note note){
+    public void insert(Note note) {
         new InsertNoteAsyncTask(noteDao).execute(note);
     }
 
     // 02 Update
-    public void update(Note note){
+    public void update(Note note) {
         new UpdateNoteAsyncTask(noteDao).execute(note);
     }
 
     // 03 Delete
-    public void delete(Note note){
+    public void delete(Note note) {
         new DeleteNoteAsyncTask(noteDao).execute(note);
     }
 
     // 04 Delete all Notes - Do not pass anything
-    public void deleteAllNotes(){
+    public void deleteAllNotes() {
         new DeleteAllNotesAsyncTask(noteDao).execute();
     }
 
@@ -65,11 +65,11 @@ public class NoteRepository {
     /**
      * Constructor for: Insert
      */
-    private static class InsertNoteAsyncTask extends AsyncTask<Note, Void, Void>{
+    private static class InsertNoteAsyncTask extends AsyncTask<Note, Void, Void> {
 
         private NoteDao noteDao;
 
-        private InsertNoteAsyncTask(NoteDao noteDao){
+        private InsertNoteAsyncTask(NoteDao noteDao) {
             this.noteDao = noteDao;
         }
 
@@ -83,11 +83,11 @@ public class NoteRepository {
     /**
      * Constructor for: Update
      */
-    private static class UpdateNoteAsyncTask extends AsyncTask<Note, Void, Void>{
+    private static class UpdateNoteAsyncTask extends AsyncTask<Note, Void, Void> {
 
         private NoteDao noteDao;
 
-        private UpdateNoteAsyncTask(NoteDao noteDao){
+        private UpdateNoteAsyncTask(NoteDao noteDao) {
             this.noteDao = noteDao;
         }
 
@@ -101,11 +101,11 @@ public class NoteRepository {
     /**
      * Constructor for: Delete
      */
-    private static class DeleteNoteAsyncTask extends AsyncTask<Note, Void, Void>{
+    private static class DeleteNoteAsyncTask extends AsyncTask<Note, Void, Void> {
 
         private NoteDao noteDao;
 
-        private DeleteNoteAsyncTask(NoteDao noteDao){
+        private DeleteNoteAsyncTask(NoteDao noteDao) {
             this.noteDao = noteDao;
         }
 
@@ -119,11 +119,11 @@ public class NoteRepository {
     /**
      * Constructor for: Delete All
      */
-    private static class DeleteAllNotesAsyncTask extends AsyncTask<Void, Void, Void>{
+    private static class DeleteAllNotesAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private NoteDao noteDao;
 
-        private DeleteAllNotesAsyncTask(NoteDao noteDao){
+        private DeleteAllNotesAsyncTask(NoteDao noteDao) {
             this.noteDao = noteDao;
         }
 
