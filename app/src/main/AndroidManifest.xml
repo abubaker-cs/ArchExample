@@ -21,7 +21,7 @@
 
         <!-- parentActivityName will be responsible for returning to MAIN page, after clicking BACK ARROW < in the topbar -->
         <activity
-            android:name=".AddNoteActivity"
+            android:name=".AddEditNoteActivity"
             android:parentActivityName=".MainActivity" />
     </application>
 

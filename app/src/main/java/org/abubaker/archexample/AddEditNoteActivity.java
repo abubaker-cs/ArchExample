@@ -12,9 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AddNoteActivity extends AppCompatActivity {
+public class AddEditNoteActivity extends AppCompatActivity {
 
     // psfs
+    public static final String EXTRA_ID = "org.abubaker.archexample.EXTRA_ID";
     public static final String EXTRA_TITLE = "org.abubaker.archexample.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION = "org.abubaker.archexample.EXTRA_DESCRIPTION";
     public static final String EXTRA_PRIORITY = "org.abubaker.archexample.EXTRA_PRIORITY";
@@ -36,7 +37,19 @@ public class AddNoteActivity extends AppCompatActivity {
         numberPickerPriority.setMaxValue(10);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
-        setTitle("Add Note");
+
+        // Find which intent opened this activity
+        Intent intent = getIntent();
+
+        if (intent.hasExtra(EXTRA_ID)) {
+            setTitle("Edit Note");
+            editTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            editTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
+            numberPickerPriority.setValue(intent.getIntExtra(EXTRA_PRIORITY, 1));
+        } else {
+            setTitle("Add Note");
+        }
+
     }
 
     /**
@@ -84,6 +97,13 @@ public class AddNoteActivity extends AppCompatActivity {
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_DESCRIPTION, description);
         data.putExtra(EXTRA_PRIORITY, priority);
+
+        // ID
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if (id != -1){
+            data.putExtra(EXTRA_ID, id);
+        }
+
 
         // Indicate if the input was successful or not
         // We can read stored data in the main activity
