@@ -39,6 +39,9 @@ dependencies {
     // Annotation processor
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
+    // RececylerView
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
