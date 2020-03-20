@@ -3,22 +3,41 @@ package org.abubaker.archexample;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.abubaker.archexample.db.Note;
 
-import java.util.ArrayList;
-import java.util.List;
-
 // Here we will assign our custom Holder: myNoteHolder to RecyclerView.Adapter<>
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myNoteHolder> {
+public class NoteAdapter extends ListAdapter<Note, NoteAdapter.myNoteHolder> {
 
-    private List<Note> notes = new ArrayList<>();
+    // For Comparision Logic
+    private static final DiffUtil.ItemCallback<Note> DIFF_CALLBACK = new DiffUtil.ItemCallback<Note>() {
+        // areItemsTheSame
+        @Override
+        public boolean areItemsTheSame(@NonNull Note oldItem, @NonNull Note newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        // areContentsTheSame = if nothing changed in the DATA (Looks)
+        @Override
+        public boolean areContentsTheSame(@NonNull Note oldItem, @NonNull Note newItem) {
+            return oldItem.getTitle().equals(newItem.getTitle())
+                    && oldItem.getDescription().equals(newItem.getDescription())
+                    && oldItem.getPriority() == newItem.getPriority();
+        }
+    };
+    // private List<Note> notes = new ArrayList<>();
     private OnItemClickListener listener;
+
+    // Using DiffUtil Library
+    public NoteAdapter() {
+        super(DIFF_CALLBACK);
+    }
 
     @NonNull
     @Override
@@ -32,35 +51,27 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myNoteHolder> 
     // into the Views of our myNoteHolder
     @Override
     public void onBindViewHolder(@NonNull myNoteHolder holder, int position) {
-        Note currentNote = notes.get(position);
+        Note currentNote = getItem(position);
 
         holder.tvTitle.setText(currentNote.getTitle());
         holder.tvDescription.setText(currentNote.getDescription());
         holder.tvPriority.setText(String.valueOf(currentNote.getPriority()));
     }
 
-    /**
-     * @return total size of rows
-     * @getItemCount How many items do we want to display?
-     */
-    @Override
-    public int getItemCount() {
-        return notes.size();
-    }
-
-    /**
-     * @param notes
-     * @setNotes inform RecyclerView for the change
-     */
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
-
-        // Better to avoid it, as it is not the best practice
-        notifyDataSetChanged();
-    }
-
     public Note getNoteAt(int position) {
-        return notes.get(position);
+        return getItem(position);
+    }
+
+    // Method
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    /**
+     * Interface for onClick Listener
+     */
+    public interface OnItemClickListener {
+        void onItemClick(Note note);
     }
 
     /**
@@ -88,23 +99,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myNoteHolder> 
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(notes.get(position));
+                        listener.onItemClick(getItem(position));
                     }
                 }
             });
         }
-    }
-
-    /**
-     * Interface for onClick Listener
-     */
-    public interface OnItemClickListener {
-        void onItemClick(Note note);
-    }
-
-    // Method
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
     }
 
 }
