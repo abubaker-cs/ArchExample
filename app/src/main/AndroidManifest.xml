@@ -9,13 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- parentActivityName will be responsible for returning to MAIN page, after clicking BACK ARROW < in the topbar -->
+        <activity
+            android:name=".AddNoteActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
